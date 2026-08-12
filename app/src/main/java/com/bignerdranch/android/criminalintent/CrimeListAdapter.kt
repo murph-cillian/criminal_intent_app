@@ -2,6 +2,7 @@ package com.bignerdranch.android.criminalintent
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.criminalintent.databinding.ListItemCrimeBinding
 import com.bignerdranch.android.criminalintent.databinding.ListItemSeriousCrimeBinding
@@ -32,15 +33,8 @@ class NormalCrimeHolder(private val binding: ListItemCrimeBinding) : CrimeHolder
 class SeriousCrimeHolder(private val binding: ListItemSeriousCrimeBinding) : CrimeHolder(binding.root) {
     override fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title
+        binding.crimeTitle.setTextColor(ContextCompat.getColor(binding.root.context, R.color.maroon))
         binding.crimeDate.text = crime.date.toString()
-
-        binding.callPoliceImage.setOnClickListener {
-            Snackbar.make(
-                binding.root,
-                "Calling police...",
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
 
         binding.root.setOnClickListener {
             Snackbar.make(
