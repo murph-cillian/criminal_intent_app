@@ -12,6 +12,10 @@ fragmentKtx = "1.4.1"
 fragmentTesting = "1.4.1"
 lifecycleViewmodelKtx = "2.9.4"
 recyclerView = "1.2.1"
+coRoutine = "1.6.0"
+room = "2.4.2"
+lifecycleRuntimeKtx = "2.4.2"
+kotlin = "2.4.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,7 +30,15 @@ androidx-fragment-ktx = {group = "androidx.fragment", name="fragment-ktx", versi
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-recyclerview = { group="androidx.recyclerview", name="recyclerview", version.ref = "recyclerView"}
 androidx-fragment-testing = {group="androidx.fragment", name="fragment-testing", version.ref="fragmentTesting"}
+kotlinx-coroutines-core = {group="org.jetbrains.kotlinx", name="kotlinx-coroutines-core", version.ref="coRoutine"}
+kotlinx-coroutines-android = {group="org.jetbrains.kotlinx", name="kotlinx-coroutines-android", version.ref="coRoutine"}
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 

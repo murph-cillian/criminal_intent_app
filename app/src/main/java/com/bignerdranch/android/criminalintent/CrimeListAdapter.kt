@@ -1,12 +1,16 @@
 package com.bignerdranch.android.criminalintent
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.criminalintent.databinding.ListItemCrimeBinding
 import com.bignerdranch.android.criminalintent.databinding.ListItemSeriousCrimeBinding
 import com.google.android.material.snackbar.Snackbar
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 private const val VIEW_TYPE_NORMAL = 0
 private const val VIEW_TYPE_POLICE = 1
@@ -18,7 +22,14 @@ abstract class CrimeHolder(itemView: android.view.View): RecyclerView.ViewHolder
 class NormalCrimeHolder(private val binding: ListItemCrimeBinding) : CrimeHolder(binding.root) {
     override fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title
-        binding.crimeDate.text = crime.date.toString()
+
+        binding.crimeDate.text = SimpleDateFormat("HH:mm - EEE, MMM d, yyyy", Locale.getDefault()).format(crime.date)
+
+        binding.crimeSolved.visibility = if (crime.isSolved) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         binding.root.setOnClickListener {
             Snackbar.make(
@@ -34,7 +45,14 @@ class SeriousCrimeHolder(private val binding: ListItemSeriousCrimeBinding) : Cri
     override fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title
         binding.crimeTitle.setTextColor(ContextCompat.getColor(binding.root.context, R.color.maroon))
-        binding.crimeDate.text = crime.date.toString()
+
+        binding.crimeDate.text = SimpleDateFormat("HH:mm - EEE, MMM d, yyyy", Locale.getDefault()).format(crime.date)
+
+        binding.crimeSolved.visibility = if (crime.isSolved) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         binding.root.setOnClickListener {
             Snackbar.make(
