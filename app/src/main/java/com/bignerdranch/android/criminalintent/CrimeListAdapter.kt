@@ -4,10 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.criminalintent.databinding.ListItemCrimeBinding
+import com.bignerdranch.android.criminalintent.databinding.ListItemSeriousCrimeBinding
 import com.google.android.material.snackbar.Snackbar
 
-class CrimeHolder(private val binding: ListItemCrimeBinding): RecyclerView.ViewHolder(binding.root) {
-    fun bind(crime: Crime) {
+private const val VIEW_TYPE_NORMAL = 0
+private const val VIEW_TYPE_POLICE = 1
+
+abstract class CrimeHolder(itemView: android.view.View): RecyclerView.ViewHolder(itemView) {
+    abstract fun bind(crime: Crime)
+}
+
+class NormalCrimeHolder(private val binding: ListItemCrimeBinding) : CrimeHolder(binding.root) {
+    override fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title
         binding.crimeDate.text = crime.date.toString()
 
@@ -15,19 +23,56 @@ class CrimeHolder(private val binding: ListItemCrimeBinding): RecyclerView.ViewH
             Snackbar.make(
                 binding.root,
                 "${crime.title} clicked!",
-                Snackbar.LENGTH_SHORT).show()
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+    }
+}
+
+class SeriousCrimeHolder(private val binding: ListItemSeriousCrimeBinding) : CrimeHolder(binding.root) {
+    override fun bind(crime: Crime) {
+        binding.crimeTitle.text = crime.title
+        binding.crimeDate.text = crime.date.toString()
+
+        binding.callPoliceImage.setOnClickListener {
+            Snackbar.make(
+                binding.root,
+                "Calling police...",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+
+        binding.root.setOnClickListener {
+            Snackbar.make(
+                binding.root,
+                "${crime.title} clicked! (police)",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 }
 
 class CrimeListAdapter(private val crimes: List<Crime>) : RecyclerView.Adapter<CrimeHolder>() {
+    override fun getItemViewType(position: Int): Int {
+        return when {
+            crimes[position].requiresPolice -> VIEW_TYPE_POLICE
+            else -> VIEW_TYPE_NORMAL
+        }
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): CrimeHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
-        return CrimeHolder(binding)
+
+        return if (viewType == VIEW_TYPE_NORMAL) {
+            val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
+            NormalCrimeHolder(binding)
+        } else {
+            val binding = ListItemSeriousCrimeBinding.inflate(inflater, parent, false)
+            SeriousCrimeHolder(binding)
+        }
     }
 
     override fun onBindViewHolder(

@@ -8,5 +8,4 @@
     android:name="com.bignerdranch.android.criminalintent.CrimeListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:layout="@layout/fragment_crime_detail" />
+    tools:context=".MainActivity" />
